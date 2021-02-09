@@ -1,5 +1,7 @@
 package fr.cesi.meteo.application.service;
 
+import fr.cesi.divers.mysql.persist.Persist;
+import fr.cesi.divers.mysql.persist.PersistQuery;
 import fr.cesi.meteo.application.repository.DataRepository;
 import fr.cesi.meteo.domain.service.IDataService;
 import fr.cesi.meteo.domain.service.IResponseService;
@@ -55,5 +57,12 @@ public class DataService implements IDataService {
         data.setCreatedAt(new Date().getTime() / 1000);
 
         return dataRepository.create(data) > 0;
+    }
+
+    @Override
+    public Persist getNewlyCreated() {
+        DataRepository dataRepository = RepositoryFactory.getInstance().getDataRepository();
+
+        return dataRepository.findLasts(1)[0];
     }
 }
