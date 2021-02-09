@@ -22,8 +22,13 @@ public class IndexController {
 
     @Action(path = "/create", method = Method.POST)
     public Response postIndexAction(Request request, Response response) {
-        response.setStatusCode(200);
-        response.setBody(new JSONObject());
+        IDataService dataService = ServiceFactory.getInstance().getDataService();
+
+        if (dataService.addNewData(request))
+            response.setStatusCode(201);
+        else
+            response.setStatusCode(400);
+
         return response;
     }
 
