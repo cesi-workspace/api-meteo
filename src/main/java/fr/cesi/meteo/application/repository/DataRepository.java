@@ -1,8 +1,8 @@
-package fr.cesi.meteo.domain.repository;
+package fr.cesi.meteo.application.repository;
 
-import fr.cesi.meteo.domain.model.Data;
+import fr.cesi.meteo.domain.entity.Data;
 import fr.cesi.divers.mysql.persist.PersistQuery;
-import fr.cesi.meteo.domain.repository.interfaces.IDataRepository;
+import fr.cesi.meteo.domain.repository.IDataRepository;
 
 public class DataRepository implements IDataRepository {
 

@@ -1,4 +1,4 @@
-package fr.cesi.meteo.application.service.interfaces;
+package fr.cesi.meteo.domain.service;
 
 import fr.cesi.meteo.infrastructure.http.Request;
 import org.json.JSONObject;

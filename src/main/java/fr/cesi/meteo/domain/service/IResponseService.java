@@ -1,4 +1,4 @@
-package fr.cesi.meteo.application.service.interfaces;
+package fr.cesi.meteo.domain.service;
 
 import fr.cesi.divers.mysql.persist.Persist;
 import org.json.JSONObject;

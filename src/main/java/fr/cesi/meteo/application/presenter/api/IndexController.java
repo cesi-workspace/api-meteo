@@ -1,6 +1,6 @@
 package fr.cesi.meteo.application.presenter.api;
 
-import fr.cesi.meteo.application.service.interfaces.IDataService;
+import fr.cesi.meteo.domain.service.IDataService;
 import fr.cesi.meteo.configuration.factory.ServiceFactory;
 import fr.cesi.meteo.infrastructure.http.Method;
 import fr.cesi.meteo.infrastructure.http.Request;

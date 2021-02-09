@@ -1,6 +1,6 @@
 package fr.cesi.meteo.configuration.factory;
 
-import fr.cesi.meteo.domain.repository.DataRepository;
+import fr.cesi.meteo.application.repository.DataRepository;
 import lombok.Getter;
 
 @Getter

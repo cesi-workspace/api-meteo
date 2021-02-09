@@ -1,11 +1,11 @@
 package fr.cesi.meteo.application.service;
 
-import fr.cesi.meteo.application.service.interfaces.IDataService;
-import fr.cesi.meteo.application.service.interfaces.IResponseService;
+import fr.cesi.meteo.domain.service.IDataService;
+import fr.cesi.meteo.domain.service.IResponseService;
 import fr.cesi.meteo.configuration.factory.RepositoryFactory;
 import fr.cesi.meteo.configuration.factory.ServiceFactory;
-import fr.cesi.meteo.domain.model.Data;
-import fr.cesi.meteo.domain.repository.interfaces.IDataRepository;
+import fr.cesi.meteo.domain.entity.Data;
+import fr.cesi.meteo.domain.repository.IDataRepository;
 import fr.cesi.meteo.infrastructure.http.Request;
 import org.json.JSONObject;
 

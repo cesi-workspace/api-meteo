@@ -1,6 +1,6 @@
 package fr.cesi.meteo;
 
-import fr.cesi.meteo.domain.model.Data;
+import fr.cesi.meteo.domain.entity.Data;
 import fr.cesi.meteo.infrastructure.exception.ParameterNotFoundException;
 import fr.cesi.meteo.infrastructure.http.HTTPServer;
 import fr.cesi.meteo.infrastructure.http.HTTPServerInfo;

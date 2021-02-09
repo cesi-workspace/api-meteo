@@ -1,6 +1,6 @@
 package fr.cesi.divers.mysql.persist;
 
-import fr.cesi.meteo.domain.model.Data;
+import fr.cesi.meteo.domain.entity.Data;
 import fr.cesi.divers.mysql.Values;
 import fr.cesi.divers.mysql.connector.SQLConnectionAdapter;
 import fr.cesi.divers.mysql.connector.SQLConnectionAdapterFactory;
