@@ -2,6 +2,7 @@ package fr.cesi.meteo.application.presenter.api;
 
 import fr.cesi.meteo.domain.service.IDataService;
 import fr.cesi.meteo.configuration.factory.ServiceFactory;
+import fr.cesi.meteo.domain.service.IResponseService;
 import fr.cesi.meteo.infrastructure.http.Method;
 import fr.cesi.meteo.infrastructure.http.Request;
 import fr.cesi.meteo.infrastructure.http.Response;
@@ -23,10 +24,14 @@ public class IndexController {
     @Action(path = "/create", method = Method.POST)
     public Response postIndexAction(Request request, Response response) {
         IDataService dataService = ServiceFactory.getInstance().getDataService();
+        IResponseService responseService = ServiceFactory.getInstance().getResponseService();
 
-        if (dataService.addNewData(request))
+        if (dataService.addNewData(request)) {
             response.setStatusCode(201);
-        else
+            response.setBody(responseService.translatePersist(
+                    dataService.getNewlyCreated()
+            ));
+        } else
             response.setStatusCode(400);
 
         return response;
