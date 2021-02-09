@@ -1,4 +1,4 @@
-package fr.cesi.infrastructure.configuration;
+package fr.cesi.configuration.route;
 
 import fr.cesi.infrastructure.http.Router;
 import lombok.Getter;
