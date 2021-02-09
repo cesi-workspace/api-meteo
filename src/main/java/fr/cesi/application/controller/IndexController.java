@@ -1,31 +1,37 @@
 package fr.cesi.application.controller;
 
+import fr.cesi.application.service.interfaces.IDataService;
+import fr.cesi.configuration.factory.ServiceFactory;
 import fr.cesi.infrastructure.http.Method;
 import fr.cesi.infrastructure.http.Request;
 import fr.cesi.infrastructure.http.Response;
 import fr.cesi.infrastructure.http.annotation.Action;
+import org.json.JSONObject;
 
 public class IndexController  {
 
     @Action(path = "/", method = Method.GET)
-    public Response getIndexAction(Request request) {
+    public Response getIndexAction(Request request, Response response) {
+        IDataService dataService = ServiceFactory.getInstance().getDataService();
 
-
-//        return Response.builder().statusCode(200).body(
-//                "{\"heure\": [\"10h\", \"10h30\", \"11h\", \"11h30\", \"12h\"], " +
-//                        "\"temp\": [10, 10, 15, 25 ,20]," +
-//                        "\"humi\": [75, 85, 89, 92 ,80]}"
-//        ).build();
+        response.setStatusCode(200);
+        response.setBody(dataService.getDataCollection(request));
+        
+        return response;
     }
 
     @Action(path = "/create", method = Method.POST)
-    public Response postIndexAction(Request request) {
-        return Response.builder().statusCode(200).body("create").build();
+    public Response postIndexAction(Request request, Response response) {
+        response.setStatusCode(200);
+        response.setBody(new JSONObject());
+        return response;
     }
 
     @Action(path = "/update", method = Method.UPDATE)
-    public Response updateIndexAction(Request request) {
-        return Response.builder().statusCode(200).body("update").build();
+    public Response updateIndexAction(Request request, Response response) {
+        response.setStatusCode(200);
+        response.setBody(new JSONObject());
+        return response;
     }
 
 }
