@@ -1,7 +1,7 @@
-package fr.cesi.meteo.http;
+package fr.cesi.infrastructure.http;
 
 import com.sun.net.httpserver.HttpServer;
-import fr.cesi.meteo.configuration.RouterList;
+import fr.cesi.infrastructure.configuration.RouterList;
 import lombok.Data;
 import lombok.SneakyThrows;
 

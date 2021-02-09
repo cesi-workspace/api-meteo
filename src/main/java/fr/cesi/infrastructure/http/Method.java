@@ -1,4 +1,4 @@
-package fr.cesi.meteo.http;
+package fr.cesi.infrastructure.http;
 
 public enum Method {
 

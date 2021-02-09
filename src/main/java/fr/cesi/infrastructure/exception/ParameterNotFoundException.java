@@ -1,4 +1,4 @@
-package fr.cesi.meteo.exception;
+package fr.cesi.infrastructure.exception;
 
 public class ParameterNotFoundException extends GenericRuntimeException {
 

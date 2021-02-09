@@ -1,9 +1,9 @@
-package fr.cesi.meteo.http;
+package fr.cesi.infrastructure.http;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import fr.cesi.meteo.configuration.RouterList;
-import fr.cesi.meteo.http.annotation.Action;
+import fr.cesi.infrastructure.configuration.RouterList;
+import fr.cesi.infrastructure.http.annotation.Action;
 import lombok.Getter;
 
 import java.lang.reflect.Method;

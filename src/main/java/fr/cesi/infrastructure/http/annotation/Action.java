@@ -1,6 +1,6 @@
-package fr.cesi.meteo.http.annotation;
+package fr.cesi.infrastructure.http.annotation;
 
-import fr.cesi.meteo.http.Method;
+import fr.cesi.infrastructure.http.Method;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

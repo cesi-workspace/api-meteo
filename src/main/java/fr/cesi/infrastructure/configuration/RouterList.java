@@ -1,6 +1,6 @@
-package fr.cesi.meteo.configuration;
+package fr.cesi.infrastructure.configuration;
 
-import fr.cesi.meteo.http.Router;
+import fr.cesi.infrastructure.http.Router;
 import lombok.Getter;
 
 import java.util.ArrayList;

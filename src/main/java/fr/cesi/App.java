@@ -1,12 +1,12 @@
-package fr.cesi.meteo;
+package fr.cesi;
 
-import fr.cesi.meteo.exception.ParameterNotFoundException;
-import fr.cesi.meteo.http.HTTPServer;
-import fr.cesi.meteo.http.HTTPServerInfo;
-import fr.cesi.meteo.domain.model.Data;
+import fr.cesi.domain.model.Data;
+import fr.cesi.infrastructure.exception.ParameterNotFoundException;
+import fr.cesi.infrastructure.http.HTTPServer;
+import fr.cesi.infrastructure.http.HTTPServerInfo;
+import fr.cesi.mysql.persist.PersistQuery;
 import fr.cesi.mysql.connector.SQLConnectionAdapter;
 import fr.cesi.mysql.connector.SQLConnectionAdapterFactory;
-import fr.cesi.mysql.persist.PersistQuery;
 
 import java.io.IOException;
 import java.util.Arrays;

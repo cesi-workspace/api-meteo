@@ -1,4 +1,4 @@
-package fr.cesi.meteo.domain.model;
+package fr.cesi.domain.model;
 
 import fr.cesi.mysql.Values;
 import fr.cesi.mysql.persist.Persist;
