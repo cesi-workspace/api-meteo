@@ -1,9 +1,11 @@
 package fr.cesi.mysql.persist;
 
-import fr.cesi.meteo.domain.model.Data;
+import fr.cesi.domain.model.Data;
 import fr.cesi.mysql.Values;
 import fr.cesi.mysql.connector.SQLConnectionAdapter;
 import fr.cesi.mysql.connector.SQLConnectionAdapterFactory;
+import fr.cesi.mysql.persist.annotation.Key;
+import fr.cesi.mysql.utils.ReflectionUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 
@@ -88,7 +90,12 @@ public class PersistQuery<T extends Persist> {
     }
 
     public PersistQuery<T> orderBy(String order) {
-        query += "ORDER BY " + order;
+        query += "ORDER BY " + order + " ";
+        return this;
+    }
+
+    public PersistQuery<T> limit(int limit) {
+        query += "LIMIT " + limit + " ";
         return this;
     }
 
@@ -124,6 +131,46 @@ public class PersistQuery<T extends Persist> {
         return sqlConnectionAdapter.map(connectionAdapter -> connectionAdapter.update(query, objectsForStatement)).orElse(0);
     }
 
+    public int createTable() {
+        Optional<SQLConnectionAdapter> sqlConnectionAdapter = SQLConnectionAdapterFactory
+                .getInstance().getSQLConnectionAdapter(clazz);
+        StringBuilder createTableQuery = new StringBuilder(
+                String.format("CREATE TABLE IF NOT EXISTS `%s` (", Persist.getTable(clazz))
+        );
+
+        List<Field> fields = ReflectionUtils.getDeclaredFields(clazz);
+        fields = fields.stream().filter(field -> field.getAnnotation(Key.class) != null).collect(Collectors.toList());
+
+        for (Field field : fields) {
+            Key key = field.getAnnotation(Key.class);
+            String fieldQuery = "`" + field.getName() + "` " + key.keyType().name().toLowerCase();
+
+            if (key.length() != -1)
+                fieldQuery += "(" + key.length() + ")";
+
+            if (key.unsigned())
+                fieldQuery += " UNSIGNED";
+
+            if (key.notNull())
+                fieldQuery += " NOT NULL";
+
+            if (key.autoincrement())
+                fieldQuery += " AUTO_INCREMENT";
+
+            fieldQuery += ", ";
+            createTableQuery.append(fieldQuery);
+
+            if (key.autoincrement())
+                createTableQuery.append("KEY(").append(field.getName()).append("), ");
+        }
+
+        createTableQuery
+                .replace(createTableQuery.length()-", ".length(), createTableQuery.length(), "")
+                .append(");");
+
+        return sqlConnectionAdapter.map(connectionAdapter -> connectionAdapter.update(createTableQuery.toString()))
+                .orElse(0);
+    }
 
     @SneakyThrows
     private HashMap<String, Object> getPersistData(Persist persist) {
