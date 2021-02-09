@@ -2,7 +2,7 @@ package fr.cesi.infrastructure.http;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import fr.cesi.infrastructure.configuration.RouterList;
+import fr.cesi.configuration.route.RouterList;
 import fr.cesi.infrastructure.http.annotation.Action;
 import lombok.Getter;
 
@@ -55,13 +55,14 @@ public class Dispatcher implements HttpHandler {
                 try {
                     String[] controllerAtAction = pathActionEntry.getValue().split("@");
                     Class<?> controllerClass = Class.forName(controllerAtAction[0]);
-                    Method method = controllerClass.getMethod(controllerAtAction[1], Request.class);
+                    Method method = controllerClass.getMethod(controllerAtAction[1], Request.class, Response.class);
                     Action action = method.getAnnotation(Action.class);
 
                     if (action != null && exchange.getRequestMethod().equalsIgnoreCase(action.method().name()))
                         response = (Response) method.invoke(
                                 controllerClass.newInstance(),
-                                new Request(queryToMap(exchange.getRequestURI().getQuery()))
+                                new Request(queryToMap(exchange.getRequestURI().getQuery())),
+                                Response.builder().build()
                         );
                 } catch (Exception e) {
                     e.printStackTrace();
