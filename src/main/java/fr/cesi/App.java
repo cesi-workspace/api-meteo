@@ -4,17 +4,17 @@ import fr.cesi.domain.model.Data;
 import fr.cesi.infrastructure.exception.ParameterNotFoundException;
 import fr.cesi.infrastructure.http.HTTPServer;
 import fr.cesi.infrastructure.http.HTTPServerInfo;
-import fr.cesi.mysql.persist.PersistQuery;
 import fr.cesi.mysql.connector.SQLConnectionAdapter;
 import fr.cesi.mysql.connector.SQLConnectionAdapterFactory;
+import fr.cesi.mysql.persist.PersistQuery;
+import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Optional;
 
 public class App {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         int port = -1;
 
         try { port = Integer.parseInt(readArgument(args, "port")); }
