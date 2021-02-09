@@ -6,4 +6,5 @@ public interface IDataRepository {
 
     Data[] findLasts(int lasts);
 
+    int create(Data data);
 }
