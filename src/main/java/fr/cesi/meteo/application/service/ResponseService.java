@@ -1,6 +1,6 @@
-package fr.cesi.meteo.logic;
+package fr.cesi.meteo.application.service;
 
-import fr.cesi.meteo.logic.service.IResponseService;
+import fr.cesi.meteo.application.service.interfaces.IResponseService;
 import fr.cesi.divers.mysql.persist.Persist;
 import fr.cesi.divers.mysql.utils.ReflectionUtils;
 import lombok.SneakyThrows;

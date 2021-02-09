@@ -2,6 +2,7 @@ package fr.cesi.meteo.domain.repository;
 
 import fr.cesi.meteo.domain.model.Data;
 import fr.cesi.divers.mysql.persist.PersistQuery;
+import fr.cesi.meteo.domain.repository.interfaces.IDataRepository;
 
 public class DataRepository implements IDataRepository {
 

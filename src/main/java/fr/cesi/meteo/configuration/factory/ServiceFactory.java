@@ -1,7 +1,7 @@
 package fr.cesi.meteo.configuration.factory;
 
-import fr.cesi.meteo.logic.DataService;
-import fr.cesi.meteo.logic.ResponseService;
+import fr.cesi.meteo.application.service.DataService;
+import fr.cesi.meteo.application.service.ResponseService;
 import lombok.Getter;
 
 @Getter

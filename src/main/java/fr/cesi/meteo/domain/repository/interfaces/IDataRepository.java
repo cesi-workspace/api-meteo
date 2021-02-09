@@ -1,4 +1,4 @@
-package fr.cesi.meteo.domain.repository;
+package fr.cesi.meteo.domain.repository.interfaces;
 
 import fr.cesi.meteo.domain.model.Data;
 
