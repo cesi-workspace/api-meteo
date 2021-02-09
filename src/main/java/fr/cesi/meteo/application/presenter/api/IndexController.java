@@ -44,4 +44,11 @@ public class IndexController {
         return response;
     }
 
+    @Action(path = "/delete", method = Method.DELETE)
+    public Response deleteIndexAction(Request request, Response response) {
+        response.setStatusCode(200);
+        response.setBody(new JSONObject());
+        return response;
+    }
+
 }
