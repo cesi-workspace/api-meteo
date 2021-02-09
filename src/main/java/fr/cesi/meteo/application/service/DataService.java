@@ -1,5 +1,6 @@
 package fr.cesi.meteo.application.service;
 
+import fr.cesi.meteo.application.repository.DataRepository;
 import fr.cesi.meteo.domain.service.IDataService;
 import fr.cesi.meteo.domain.service.IResponseService;
 import fr.cesi.meteo.configuration.factory.RepositoryFactory;
@@ -10,6 +11,7 @@ import fr.cesi.meteo.infrastructure.http.Request;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class DataService implements IDataService {
@@ -36,4 +38,22 @@ public class DataService implements IDataService {
         return response;
     }
 
+    @Override
+    public boolean addNewData(Request request) {
+        int temperature, humidity;
+
+        try {
+            temperature = Integer.parseInt(request.getParameters().getOrDefault("temperature", "-"));
+            humidity = Integer.parseInt(request.getParameters().getOrDefault("humidity", "-"));
+        } catch (Exception ignored) { return false; }
+
+        DataRepository dataRepository = RepositoryFactory.getInstance().getDataRepository();
+        Data data = new Data();
+
+        data.setHumidity(humidity);
+        data.setTemperature(temperature);
+        data.setCreatedAt(new Date().getTime() / 1000);
+
+        return dataRepository.create(data) > 0;
+    }
 }
