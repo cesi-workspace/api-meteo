@@ -16,4 +16,10 @@ public class DataRepository implements IDataRepository {
                 .toArray(new Data[0]);
     }
 
+    @Override
+    public int create(Data data) {
+        return new PersistQuery<>(Data.class)
+                .insert(data)
+                .executeUpdate();
+    }
 }
