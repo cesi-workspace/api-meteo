@@ -6,4 +6,6 @@ import org.json.JSONObject;
 public interface IDataService {
 
     JSONObject getDataCollection(Request request);
+
+    boolean addNewData(Request request);
 }
