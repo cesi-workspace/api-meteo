@@ -62,7 +62,12 @@ public class Dispatcher implements HttpHandler {
                     Action action = method.getAnnotation(Action.class);
 
                     if (action != null && exchange.getRequestMethod().equalsIgnoreCase(action.method().name())) {
-                        JSONObject bodyObject = new JSONObject(IOUtils.toString(exchange.getRequestBody(), Charset.defaultCharset()));
+                        JSONObject bodyObject = new JSONObject();
+                        String body = IOUtils.toString(exchange.getRequestBody(), Charset.defaultCharset());
+
+                        if (body != null && !body.equals(""))
+                            bodyObject = new JSONObject(IOUtils.toString(exchange.getRequestBody(), Charset.defaultCharset()));
+
                         Request request = Request.builder()
                                 .body(bodyObject)
                                 .parameters(queryToMap(exchange.getRequestURI().getQuery()))
