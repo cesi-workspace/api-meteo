@@ -23,7 +23,7 @@ public class App {
         }
 
         Optional<SQLConnectionAdapter> sqlConnectionAdapter = SQLConnectionAdapter.from(
-                "jdbc:mysql://192.168.37.252/meteo?autoReconnect=true",
+                "jdbc:mysql://127.0.0.1/meteo?autoReconnect=true",
                 "cesi",
                 "cesi"
         );
