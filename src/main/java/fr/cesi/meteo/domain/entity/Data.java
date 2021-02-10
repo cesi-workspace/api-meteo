@@ -1,6 +1,5 @@
 package fr.cesi.meteo.domain.entity;
 
-import fr.cesi.divers.mysql.Values;
 import fr.cesi.divers.mysql.persist.Persist;
 import fr.cesi.divers.mysql.persist.annotation.Key;
 import fr.cesi.divers.mysql.persist.annotation.KeyType;
@@ -16,13 +15,13 @@ import lombok.ToString;
 public class Data extends Persist {
 
     @Key(keyType = KeyType.BIGINT, notNull = true)
-    private long createdAt = Values.NULL_INTEGER;
+    private long createdAt;
 
-    @Key(keyType = KeyType.INT, notNull = true)
-    private int temperature = Values.NULL_INTEGER;
+    @Key(keyType = KeyType.DOUBLE, notNull = true)
+    private double temperature;
 
     @Key(keyType = KeyType.INT, notNull = true, unsigned = true)
-    private long humidity = Values.NULL_INTEGER;
+    private long humidity;
 
 }
 
