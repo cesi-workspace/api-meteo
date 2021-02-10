@@ -1,11 +1,10 @@
 package fr.cesi.divers.mysql.persist;
 
-import fr.cesi.meteo.domain.entity.Data;
-import fr.cesi.divers.mysql.Values;
 import fr.cesi.divers.mysql.connector.SQLConnectionAdapter;
 import fr.cesi.divers.mysql.connector.SQLConnectionAdapterFactory;
 import fr.cesi.divers.mysql.persist.annotation.Key;
 import fr.cesi.divers.mysql.utils.ReflectionUtils;
+import fr.cesi.meteo.domain.entity.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 
@@ -40,18 +39,24 @@ public class PersistQuery<T extends Persist> {
 
     public PersistQuery<T> update(Persist persist) {
         HashMap<String, Object> persistData = getPersistData(persist);
-        return update(persistData).where(persistData);
+
+        return update(persistData).where(new HashMap<String, Object>() {{
+            put("id", persist.getId());
+        }});
     }
 
     public PersistQuery<T> update(Map<String, Object> fields) {
         String table = Persist.getTable(clazz);
 
         query += String.format(
-                "UPDATE %s SET %s",
+                "UPDATE %s SET %s=? ",
                 table,
                 String.join("=?, ", fields.keySet())
         );
-        objectsForStatement = fields.values().toArray(new Object[0]);
+
+        ArrayList<Object> objects = new ArrayList<>(Arrays.asList(objectsForStatement));
+        objects.addAll(fields.values());
+        objectsForStatement = objects.toArray(new Object[0]);
 
         return this;
     }
@@ -68,22 +73,24 @@ public class PersistQuery<T extends Persist> {
                 String.join(", ", fields.keySet()),
                 fields.values().stream().map(o -> "?").collect(Collectors.joining(", "))
         );
-        objectsForStatement = fields.values().toArray(new Object[0]);
+
+        ArrayList<Object> objects = new ArrayList<>(Arrays.asList(objectsForStatement));
+        objects.addAll(fields.values());
+        objectsForStatement = objects.toArray(new Object[0]);
+
         return this;
     }
 
     public PersistQuery<T> where(HashMap<String, Object> where) {
         query += "WHERE ";
 
-        ((HashMap<String, Object>) where.clone()).forEach((s, o) -> {
-            if (o == null || Integer.parseInt(String.valueOf(o)) == Values.NULL_INTEGER) {
-                where.remove(s);
-            }
-        });
-
         for (String s : where.keySet())
             query += s + "=? AND ";
-        objectsForStatement = where.values().toArray(new Object[0]);
+
+
+        ArrayList<Object> objects = new ArrayList<>(Arrays.asList(objectsForStatement));
+        objects.addAll(where.values());
+        objectsForStatement = objects.toArray(new Object[0]);
 
         query = query.substring(0, query.length()-"AND ".length());
         return this;
