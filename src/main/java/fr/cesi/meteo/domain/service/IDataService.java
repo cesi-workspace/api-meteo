@@ -11,4 +11,6 @@ public interface IDataService {
     boolean addNewData(Request request);
 
     Persist getNewlyCreated();
+
+    boolean updateData(Request request);
 }
