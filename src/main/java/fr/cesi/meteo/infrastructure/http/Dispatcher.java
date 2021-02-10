@@ -69,7 +69,7 @@ public class Dispatcher implements HttpHandler {
                         try {
                             bodyObject = new JSONObject(body);
                         } catch (JSONException ignored) { }
-                        
+
                         Request request = Request.builder()
                                 .body(bodyObject)
                                 .parameters(queryToMap(exchange.getRequestURI().getQuery()))

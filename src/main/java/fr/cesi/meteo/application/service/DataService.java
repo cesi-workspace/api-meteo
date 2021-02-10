@@ -46,8 +46,8 @@ public class DataService implements IDataService {
         if (!(body.has("temperature") && body.has("humidity")))
             return false;
 
-        int temperature = body.getInt("temperature");
-        int humidity = body.getInt("temperature");
+        double temperature = body.getDouble("temperature");
+        int humidity = body.getInt("humidity");
 
         DataRepository dataRepository = RepositoryFactory.getInstance().getDataRepository();
         Data data = new Data();
