@@ -4,7 +4,7 @@ public enum Method {
 
     POST,
     GET,
-    UPDATE,
+    PUT,
     DELETE;
 
 }
