@@ -61,6 +61,25 @@ public class DataService implements IDataService {
     }
 
     @Override
+    public boolean updateData(Request request) {
+        JSONObject body = request.getBody();
+
+        if (!body.has("id"))
+            return false;
+
+        DataRepository dataRepository = RepositoryFactory.getInstance().getDataRepository();
+        Data data = dataRepository.find(body.getInt("id"));
+
+        if (body.has("humidity"))
+            data.setHumidity(body.getInt("humidity"));
+
+        if (body.has("temperature"))
+            data.setTemperature(body.getDouble("temperature"));
+
+        return dataRepository.save(data) > 0;
+    }
+
+    @Override
     public Persist getNewlyCreated() {
         DataRepository dataRepository = RepositoryFactory.getInstance().getDataRepository();
 
