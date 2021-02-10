@@ -6,6 +6,7 @@ import fr.cesi.meteo.configuration.route.RouterList;
 import fr.cesi.meteo.infrastructure.http.annotation.Action;
 import lombok.Getter;
 import org.apache.commons.io.IOUtils;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Method;
@@ -65,9 +66,10 @@ public class Dispatcher implements HttpHandler {
                         JSONObject bodyObject = new JSONObject();
                         String body = IOUtils.toString(exchange.getRequestBody(), Charset.defaultCharset());
 
-                        if (body != null && !body.equals(""))
-                            bodyObject = new JSONObject(IOUtils.toString(exchange.getRequestBody(), Charset.defaultCharset()));
-
+                        try {
+                            bodyObject = new JSONObject(body);
+                        } catch (JSONException ignored) { }
+                        
                         Request request = Request.builder()
                                 .body(bodyObject)
                                 .parameters(queryToMap(exchange.getRequestURI().getQuery()))
