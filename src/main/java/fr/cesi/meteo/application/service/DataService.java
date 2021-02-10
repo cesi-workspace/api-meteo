@@ -42,12 +42,13 @@ public class DataService implements IDataService {
 
     @Override
     public boolean addNewData(Request request) {
-        int temperature, humidity;
+        JSONObject body = request.getBody();
 
-        try {
-            temperature = Integer.parseInt(request.getParameters().getOrDefault("temperature", "-"));
-            humidity = Integer.parseInt(request.getParameters().getOrDefault("humidity", "-"));
-        } catch (Exception ignored) { return false; }
+        if (!(body.has("temperature") && body.has("humidity")))
+            return false;
+
+        int temperature = body.getInt("temperature");
+        int humidity = body.getInt("temperature");
 
         DataRepository dataRepository = RepositoryFactory.getInstance().getDataRepository();
         Data data = new Data();

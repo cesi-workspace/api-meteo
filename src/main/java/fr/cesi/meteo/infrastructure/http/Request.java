@@ -1,15 +1,16 @@
 package fr.cesi.meteo.infrastructure.http;
 
+import lombok.Builder;
 import lombok.Getter;
+import org.json.JSONObject;
 
 import java.util.Map;
 
+@Builder
+@Getter
 public class Request {
 
-    @Getter
     private final Map<String, String> parameters;
+    private final JSONObject body;
 
-    public Request(Map<String, String> parameters) {
-        this.parameters = parameters;
-    }
 }

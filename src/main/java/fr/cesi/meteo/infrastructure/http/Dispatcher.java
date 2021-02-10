@@ -5,8 +5,11 @@ import com.sun.net.httpserver.HttpHandler;
 import fr.cesi.meteo.configuration.route.RouterList;
 import fr.cesi.meteo.infrastructure.http.annotation.Action;
 import lombok.Getter;
+import org.apache.commons.io.IOUtils;
+import org.json.JSONObject;
 
 import java.lang.reflect.Method;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -58,12 +61,19 @@ public class Dispatcher implements HttpHandler {
                     Method method = controllerClass.getMethod(controllerAtAction[1], Request.class, Response.class);
                     Action action = method.getAnnotation(Action.class);
 
-                    if (action != null && exchange.getRequestMethod().equalsIgnoreCase(action.method().name()))
+                    if (action != null && exchange.getRequestMethod().equalsIgnoreCase(action.method().name())) {
+                        JSONObject bodyObject = new JSONObject(IOUtils.toString(exchange.getRequestBody(), Charset.defaultCharset()));
+                        Request request = Request.builder()
+                                .body(bodyObject)
+                                .parameters(queryToMap(exchange.getRequestURI().getQuery()))
+                                .build();
+
                         response = (Response) method.invoke(
                                 controllerClass.newInstance(),
-                                new Request(queryToMap(exchange.getRequestURI().getQuery())),
+                                request,
                                 Response.builder().build()
                         );
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
