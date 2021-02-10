@@ -1,5 +1,7 @@
 package fr.cesi.divers.mysql.connector;
 
+import lombok.SneakyThrows;
+
 import java.sql.*;
 import java.util.Optional;
 
@@ -11,15 +13,10 @@ public class SQLConnectionAdapter {
         this.connection = connection;
     }
 
+    @SneakyThrows
     public static Optional<SQLConnectionAdapter> from(String jdbcUrl, String username, String password) {
-        SQLConnectionAdapter sqlConnectionAdapter = null;
-        try {
-            DriverManager.setLoginTimeout(10);
-            Connection connection = DriverManager.getConnection(jdbcUrl, username, password);
-            sqlConnectionAdapter = new SQLConnectionAdapter(connection);
-        } catch (SQLException throwable) {
-            throwable.printStackTrace();
-        }
+        Connection connection = DriverManager.getConnection(jdbcUrl, username, password);
+        SQLConnectionAdapter sqlConnectionAdapter = new SQLConnectionAdapter(connection);
 
         return Optional.ofNullable(sqlConnectionAdapter);
     }

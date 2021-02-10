@@ -14,6 +14,12 @@ import java.util.Optional;
 public class App {
 
     public static void main(String[] args) {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
         int port = -1;
 
         try { port = Integer.parseInt(readArgument(args, "port")); }
