@@ -37,8 +37,16 @@ public class IndexController {
         return response;
     }
 
-    @Action(path = "/update", method = Method.UPDATE)
+    @Action(path = "/update", method = Method.PUT)
     public Response updateIndexAction(Request request, Response response) {
+        IDataService dataService = ServiceFactory.getInstance().getDataService();
+        IResponseService responseService = ServiceFactory.getInstance().getResponseService();
+
+        if (dataService.updateData(request))
+            response.setStatusCode(200);
+        else
+            response.setStatusCode(400);
+
         response.setStatusCode(200);
         response.setBody(new JSONObject());
         return response;
