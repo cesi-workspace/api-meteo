@@ -36,4 +36,11 @@ public class DataRepository implements IDataRepository {
                 .executeQuery()
                 .get(0);
     }
+
+    @Override
+    public int save(Data data) {
+        return new PersistQuery<>(Data.class)
+                .update(data)
+                .executeUpdate();
+    }
 }
