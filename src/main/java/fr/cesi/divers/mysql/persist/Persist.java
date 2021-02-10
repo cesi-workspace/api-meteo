@@ -33,10 +33,6 @@ public abstract class Persist {
         return table.name();
     }
 
-    public String getTable() {
-        return getTable(getClass());
-    }
-
     Persist parseFromResultSet(ResultSet resultSet) throws SQLException {
         ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
         int columnsNumber = resultSetMetaData.getColumnCount();
