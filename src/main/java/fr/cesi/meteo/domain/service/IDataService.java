@@ -13,4 +13,6 @@ public interface IDataService {
     Persist getNewlyCreated();
 
     boolean updateData(Request request);
+
+    boolean deleteData(Request request);
 }

@@ -1,14 +1,13 @@
 package fr.cesi.meteo.application.service;
 
 import fr.cesi.divers.mysql.persist.Persist;
-import fr.cesi.divers.mysql.persist.PersistQuery;
 import fr.cesi.meteo.application.repository.DataRepository;
-import fr.cesi.meteo.domain.service.IDataService;
-import fr.cesi.meteo.domain.service.IResponseService;
 import fr.cesi.meteo.configuration.factory.RepositoryFactory;
 import fr.cesi.meteo.configuration.factory.ServiceFactory;
 import fr.cesi.meteo.domain.entity.Data;
 import fr.cesi.meteo.domain.repository.IDataRepository;
+import fr.cesi.meteo.domain.service.IDataService;
+import fr.cesi.meteo.domain.service.IResponseService;
 import fr.cesi.meteo.infrastructure.http.Request;
 import org.json.JSONObject;
 
@@ -84,5 +83,16 @@ public class DataService implements IDataService {
         DataRepository dataRepository = RepositoryFactory.getInstance().getDataRepository();
 
         return dataRepository.findLasts(1)[0];
+    }
+
+    @Override
+    public boolean deleteData(Request request) {
+        DataRepository dataRepository = RepositoryFactory.getInstance().getDataRepository();
+        JSONObject body = request.getBody();
+
+        if (!body.has("id"))
+            return false;
+
+        return dataRepository.delete(body.getInt("id")) > 0;
     }
 }

@@ -11,4 +11,6 @@ public interface IDataRepository {
     Data find(int id);
 
     int save(Data data);
+
+    int delete(int id);
 }

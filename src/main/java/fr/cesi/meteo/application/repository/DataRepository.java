@@ -1,10 +1,9 @@
 package fr.cesi.meteo.application.repository;
 
-import fr.cesi.meteo.domain.entity.Data;
 import fr.cesi.divers.mysql.persist.PersistQuery;
+import fr.cesi.meteo.domain.entity.Data;
 import fr.cesi.meteo.domain.repository.IDataRepository;
 
-import java.math.BigInteger;
 import java.util.HashMap;
 
 public class DataRepository implements IDataRepository {
@@ -43,4 +42,15 @@ public class DataRepository implements IDataRepository {
                 .update(data)
                 .executeUpdate();
     }
+
+    @Override
+    public int delete(int id) {
+        return new PersistQuery<>(Data.class)
+                .delete()
+                .where(new HashMap<String, Object>() {{
+                    put("id", id);
+                }})
+                .executeUpdate();
+    }
+
 }

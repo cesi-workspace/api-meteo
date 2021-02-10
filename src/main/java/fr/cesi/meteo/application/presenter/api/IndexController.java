@@ -47,15 +47,18 @@ public class IndexController {
         else
             response.setStatusCode(400);
 
-        response.setStatusCode(200);
-        response.setBody(new JSONObject());
         return response;
     }
 
     @Action(path = "/delete", method = Method.DELETE)
     public Response deleteIndexAction(Request request, Response response) {
-        response.setStatusCode(200);
-        response.setBody(new JSONObject());
+        IDataService dataService = ServiceFactory.getInstance().getDataService();
+
+        if (dataService.deleteData(request))
+            response.setStatusCode(200);
+        else
+            response.setStatusCode(400);
+
         return response;
     }
 

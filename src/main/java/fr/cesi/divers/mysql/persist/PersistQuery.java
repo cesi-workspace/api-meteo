@@ -61,6 +61,17 @@ public class PersistQuery<T extends Persist> {
         return this;
     }
 
+    public PersistQuery<T> delete() {
+        String table = Persist.getTable(clazz);
+
+        query += String.format(
+                "DELETE FROM %s ",
+                table
+        );
+
+        return this;
+    }
+
     public PersistQuery<T> insert(Persist persist) {
         return insert(getPersistData(persist));
     }
