@@ -1,12 +1,10 @@
 package fr.cesi.meteo;
 
-import fr.cesi.meteo.domain.entity.Data;
+import fr.cesi.divers.mysql.connector.SQLConnectionAdapter;
+import fr.cesi.meteo.configuration.Bootstrap;
 import fr.cesi.meteo.infrastructure.exception.ParameterNotFoundException;
 import fr.cesi.meteo.infrastructure.http.HTTPServer;
 import fr.cesi.meteo.infrastructure.http.HTTPServerInfo;
-import fr.cesi.divers.mysql.persist.PersistQuery;
-import fr.cesi.divers.mysql.connector.SQLConnectionAdapter;
-import fr.cesi.divers.mysql.connector.SQLConnectionAdapterFactory;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -14,11 +12,8 @@ import java.util.Optional;
 public class App {
 
     public static void main(String[] args) {
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        try { Class.forName("com.mysql.jdbc.Driver"); }
+        catch (ClassNotFoundException e) { e.printStackTrace(); }
 
         int port = -1;
 
@@ -35,12 +30,7 @@ public class App {
         );
 
         if (sqlConnectionAdapter.isPresent()) {
-            SQLConnectionAdapterFactory.getInstance().addConnectionAdapter(
-                    Data.class,
-                    sqlConnectionAdapter.get()
-            );
-
-            new PersistQuery<Data>(Data.class).createTable();
+            new Bootstrap().register(sqlConnectionAdapter.get());
 
             HTTPServerInfo httpServerInfo = new HTTPServerInfo(readArgument(args, "host"), port);
             HTTPServer httpServer = new HTTPServer(httpServerInfo);
