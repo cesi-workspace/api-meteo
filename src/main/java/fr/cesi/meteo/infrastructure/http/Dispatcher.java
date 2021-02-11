@@ -72,6 +72,7 @@ public class Dispatcher implements HttpHandler {
 
                         Request request = Request.builder()
                                 .body(bodyObject)
+                                .headers(exchange.getRequestHeaders())
                                 .parameters(queryToMap(exchange.getRequestURI().getQuery()))
                                 .build();
 
