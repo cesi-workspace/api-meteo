@@ -20,9 +20,9 @@ public class DataService implements IDataService {
     @Override
     public JSONObject getDataCollection(Request request) {
         int limit = 10;
-        try {
-            limit = Integer.parseInt(request.getParameters().getOrDefault("limit","10"));
-        } catch (NumberFormatException ignored) {}
+
+        if (request.getBody().has("limit"))
+            limit = request.getBody().getInt("limit");
 
         IDataRepository dataRepository = RepositoryFactory.getInstance().getDataRepository();
         Data[] lasts = dataRepository.findLasts(limit);

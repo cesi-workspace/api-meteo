@@ -1,13 +1,12 @@
 package fr.cesi.meteo.application.presenter.api;
 
-import fr.cesi.meteo.domain.service.IDataService;
 import fr.cesi.meteo.configuration.factory.ServiceFactory;
+import fr.cesi.meteo.domain.service.IDataService;
 import fr.cesi.meteo.domain.service.IResponseService;
 import fr.cesi.meteo.infrastructure.http.Method;
 import fr.cesi.meteo.infrastructure.http.Request;
 import fr.cesi.meteo.infrastructure.http.Response;
 import fr.cesi.meteo.infrastructure.http.annotation.Action;
-import org.json.JSONObject;
 
 public class IndexController {
 
