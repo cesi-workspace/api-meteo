@@ -12,7 +12,7 @@ public class DataRepository implements IDataRepository {
     public Data[] findLasts(int lasts) {
         return new PersistQuery<>(Data.class)
                 .select("*")
-                .orderBy("id DESC")
+                .orderBy("id", "DESC")
                 .limit(lasts)
                 .executeQuery()
                 .toArray(new Data[0]);
