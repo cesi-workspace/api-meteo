@@ -1,6 +1,9 @@
 package fr.cesi.meteo.configuration.factory;
 
+import fr.cesi.meteo.application.repository.ApiKeyRepository;
 import fr.cesi.meteo.application.repository.DataRepository;
+import fr.cesi.meteo.domain.repository.IApiKeyRepository;
+import fr.cesi.meteo.domain.repository.IDataRepository;
 import lombok.Getter;
 
 @Getter
@@ -13,6 +16,8 @@ public class RepositoryFactory {
         return instance;
     }
 
-    private DataRepository dataRepository = new DataRepository();
+    private IDataRepository dataRepository = new DataRepository();
+
+    private IApiKeyRepository apiKeyRepository = new ApiKeyRepository();
 
 }
