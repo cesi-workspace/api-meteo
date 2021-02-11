@@ -1,7 +1,6 @@
 package fr.cesi.meteo.application.service;
 
 import fr.cesi.divers.mysql.persist.Persist;
-import fr.cesi.meteo.application.repository.DataRepository;
 import fr.cesi.meteo.configuration.factory.RepositoryFactory;
 import fr.cesi.meteo.configuration.factory.ServiceFactory;
 import fr.cesi.meteo.domain.entity.Data;
@@ -49,7 +48,7 @@ public class DataService implements IDataService {
         double temperature = body.getDouble("temperature");
         int humidity = body.getInt("humidity");
 
-        DataRepository dataRepository = RepositoryFactory.getInstance().getDataRepository();
+        IDataRepository dataRepository = RepositoryFactory.getInstance().getDataRepository();
         Data data = new Data();
 
         data.setHumidity(humidity);
@@ -66,7 +65,7 @@ public class DataService implements IDataService {
         if (!body.has("id"))
             return false;
 
-        DataRepository dataRepository = RepositoryFactory.getInstance().getDataRepository();
+        IDataRepository dataRepository = RepositoryFactory.getInstance().getDataRepository();
         Data data = dataRepository.find(body.getInt("id"));
 
         if (body.has("humidity"))
@@ -80,14 +79,14 @@ public class DataService implements IDataService {
 
     @Override
     public Persist getNewlyCreated() {
-        DataRepository dataRepository = RepositoryFactory.getInstance().getDataRepository();
+        IDataRepository dataRepository = RepositoryFactory.getInstance().getDataRepository();
 
         return dataRepository.findLasts(1)[0];
     }
 
     @Override
     public boolean deleteData(Request request) {
-        DataRepository dataRepository = RepositoryFactory.getInstance().getDataRepository();
+        IDataRepository dataRepository = RepositoryFactory.getInstance().getDataRepository();
         JSONObject body = request.getBody();
 
         if (!body.has("id"))
