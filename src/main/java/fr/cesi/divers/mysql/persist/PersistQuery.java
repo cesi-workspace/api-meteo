@@ -4,7 +4,6 @@ import fr.cesi.divers.mysql.connector.SQLConnectionAdapter;
 import fr.cesi.divers.mysql.connector.SQLConnectionAdapterFactory;
 import fr.cesi.divers.mysql.persist.annotation.Key;
 import fr.cesi.divers.mysql.utils.ReflectionUtils;
-import fr.cesi.meteo.domain.entity.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 
@@ -28,12 +27,13 @@ public class PersistQuery<T extends Persist> {
     }
 
     public PersistQuery<T> select(String... fields) {
-        String table = Persist.getTable(Data.class);
+        String table = Persist.getTable(clazz);
         query += String.format(
-                "SELECT %s FROM %s ",
-                String.join(",", fields),
-                Persist.getTable(Data.class)
+                "SELECT `%s` FROM `%s` ",
+                String.join("`,`", fields),
+                Persist.getTable(clazz)
         );
+        query = query.replaceAll("`\\*`", "*");
         return this;
     }
 
@@ -49,9 +49,9 @@ public class PersistQuery<T extends Persist> {
         String table = Persist.getTable(clazz);
 
         query += String.format(
-                "UPDATE %s SET %s=? ",
+                "UPDATE `%s` SET `%s`=? ",
                 table,
-                String.join("=?, ", fields.keySet())
+                String.join("`=?, `", fields.keySet())
         );
 
         ArrayList<Object> objects = new ArrayList<>(Arrays.asList(objectsForStatement));
@@ -65,7 +65,7 @@ public class PersistQuery<T extends Persist> {
         String table = Persist.getTable(clazz);
 
         query += String.format(
-                "DELETE FROM %s ",
+                "DELETE FROM `%s` ",
                 table
         );
 
@@ -77,11 +77,11 @@ public class PersistQuery<T extends Persist> {
     }
 
     public PersistQuery<T> insert(Map<String, Object> fields) {
-        String table = Persist.getTable(Data.class);
+        String table = Persist.getTable(clazz);
         query += String.format(
-                "INSERT INTO %s (%s) VALUES (%s)",
+                "INSERT INTO `%s` (`%s`) VALUES (%s)",
                 table,
-                String.join(", ", fields.keySet()),
+                String.join("`, `", fields.keySet()),
                 fields.values().stream().map(o -> "?").collect(Collectors.joining(", "))
         );
 
@@ -96,7 +96,7 @@ public class PersistQuery<T extends Persist> {
         query += "WHERE ";
 
         for (String s : where.keySet())
-            query += s + "=? AND ";
+            query += "`" + s + "`=? AND ";
 
 
         ArrayList<Object> objects = new ArrayList<>(Arrays.asList(objectsForStatement));
@@ -107,8 +107,8 @@ public class PersistQuery<T extends Persist> {
         return this;
     }
 
-    public PersistQuery<T> orderBy(String order) {
-        query += "ORDER BY " + order + " ";
+    public PersistQuery<T> orderBy(String column, String order) {
+        query += "ORDER BY `" + column + "` " + order + " ";
         return this;
     }
 
@@ -122,7 +122,7 @@ public class PersistQuery<T extends Persist> {
         List<T> persists = new ArrayList<>();
         Optional<SQLConnectionAdapter> optionalSQLConnectionAdapter = SQLConnectionAdapterFactory
                 .getInstance()
-                .getSQLConnectionAdapter(Data.class);
+                .getSQLConnectionAdapter(clazz);
 
         if (optionalSQLConnectionAdapter.isPresent()) {
             SQLConnectionAdapter sqlConnectionAdapter = optionalSQLConnectionAdapter.get();
@@ -144,7 +144,7 @@ public class PersistQuery<T extends Persist> {
     public int executeUpdate() {
         Optional<SQLConnectionAdapter> sqlConnectionAdapter = SQLConnectionAdapterFactory
                 .getInstance()
-                .getSQLConnectionAdapter(Data.class);
+                .getSQLConnectionAdapter(clazz);
 
         return sqlConnectionAdapter.map(connectionAdapter -> connectionAdapter.update(query, objectsForStatement)).orElse(0);
     }
